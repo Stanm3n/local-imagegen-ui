@@ -1,0 +1,15 @@
+# Install a CUDA-enabled PyTorch wheel separately; see README.
+torch==2.6.0
+torchvision==0.21.0
+# Source revision recorded in the original working environment.
+diffusers @ https://github.com/huggingface/diffusers/archive/80c7ed262aeffbeb43ef13ae04baeb9b84515a69.zip
+accelerate==1.15.0
+transformers==5.17.0
+fastapi==0.141.1
+uvicorn==0.53.0
+pydantic==2.13.5
+numpy==2.4.6
+Pillow==13.0.0
+safetensors==0.8.0
+sentencepiece==0.2.2
+protobuf==7.36.2

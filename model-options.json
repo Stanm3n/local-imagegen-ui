@@ -1,0 +1,7 @@
+{
+  "default": "q4",
+  "bf16": {
+    "repo": "Qwen/Qwen-Image-2.1",
+    "revision": "d26bb61231c349cf6b7896fa83353113880e1ba3"
+  }
+}

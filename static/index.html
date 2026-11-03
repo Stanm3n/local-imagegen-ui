@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Local ImageGen UI</title>
+    <meta name="theme-color" content="#f7f8fa" />
+    <script>
+      try {
+        const t = localStorage.getItem("qwen-studio-theme");
+        document.documentElement.dataset.theme =
+          t === "dark" ? "dark" : "light";
+      } catch {
+        document.documentElement.dataset.theme = "light";
+      }
+    </script>
+    <link rel="stylesheet" href="/static/style.css?v=local-imagegen-2" />
+  </head>
+  <body>
+    <svg
+      class="svg-library"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <symbol id="i-image" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+          <circle cx="8" cy="8" r="1.5" />
+          <path d="m21 15-5-5L6 21" />
+        </symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24">
+          <path d="M12 5v14M5 12h14" />
+        </symbol>
+        <symbol id="i-arrow" viewBox="0 0 24 24">
+          <path d="M5 12h14m-6-6 6 6-6 6" />
+        </symbol>
+        <symbol id="i-folder" viewBox="0 0 24 24">
+          <path d="M3 7V5h6l2 2h10v12H3Z" />
+        </symbol>
+        <symbol id="i-dice" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="3" />
+          <path d="M8 8h.01M16 8h.01M12 12h.01M8 16h.01M16 16h.01" />
+        </symbol>
+        <symbol id="i-save" viewBox="0 0 24 24">
+          <path d="M5 3h12l4 4v14H3V3h2Z" />
+          <path d="M7 3v6h10V3M7 21v-8h10v8" />
+        </symbol>
+        <symbol id="i-delete" viewBox="0 0 24 24">
+          <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7M14 10v7" />
+        </symbol>
+        <symbol id="i-refresh" viewBox="0 0 24 24">
+          <path d="M20 7a8 8 0 1 0 1 7M20 3v5h-5" />
+        </symbol>
+        <symbol id="i-stop" viewBox="0 0 24 24">
+          <rect x="5" y="5" width="14" height="14" rx="2" />
+        </symbol>
+        <symbol id="i-x" viewBox="0 0 24 24">
+          <path d="m6 6 12 12M18 6 6 18" />
+        </symbol>
+        <symbol id="i-check" viewBox="0 0 24 24">
+          <path d="m5 12 4 4L19 6" />
+        </symbol>
+        <symbol id="i-settings" viewBox="0 0 24 24">
+          <path d="M4 7h16M4 17h16M9 4v6M15 14v6" />
+        </symbol>
+        <symbol id="i-upload" viewBox="0 0 24 24">
+          <path d="M12 16V3m-5 5 5-5 5 5M4 16v5h16v-5" />
+        </symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24">
+          <path d="M20.5 13A9 9 0 0 1 11 3.5 9 9 0 1 0 20.5 13Z" />
+        </symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"
+          />
+        </symbol>
+      </defs>
+    </svg>
+    <header class="app-header">
+      <a class="brand" href="/" aria-label="Local ImageGen UI Startseite"
+        ><span class="brand-mark"
+          ><svg class="icon" aria-hidden="true">
+            <use href="#i-image" /></svg></span
+        ><span>Local<span class="brand-light"> ImageGen UI</span></span></a
+      >
+      <div class="header-divider"></div>
+      <span class="workspace-name">Image workspace</span>
+      <div class="spacer"></div>
+      <span class="local-label">Lokaler Arbeitsbereich</span
+      ><button
+        id="themeToggle"
+        class="btn small theme-toggle"
+        type="button"
+        aria-label="Darkmode einschalten"
+        aria-pressed="false"
+      >
+        <svg class="icon" aria-hidden="true"><use href="#i-moon" /></svg
+        ><span>Dunkel</span>
+      </button>
+      <div id="modelBadge" class="badge loading" role="status">Modell lädt</div>
+    </header>
+    <div id="backendNotice" class="backend-notice" role="alert" hidden>
+      <strong>Server neu starten</strong
+      ><span
+        >Die Oberfläche ist neuer als das laufende Backend oder die Verbindung
+        fehlt. Beende den Python-Server mit Strg+C, starte ihn erneut und lade
+        die Seite neu.</span
+      >
+    </div>
+    <main>
+      <aside>
+        <div class="aside-head">
+          <div>
+            <span class="eyebrow">BIBLIOTHEK</span>
+            <h2>
+              Bildaufträge <span id="assetCount" class="count">(0/0)</span>
+            </h2>
+          </div>
+          <button
+            id="btnNew"
+            class="btn small"
+            type="button"
+            title="Bildauftrag anlegen"
+          >
+            <svg class="icon" aria-hidden="true"><use href="#i-plus" /></svg
+            ><span>Neu</span>
+          </button>
+        </div>
+        <label class="check small-check filter"
+          ><input id="hideDone" type="checkbox" />Erledigte ausblenden</label
+        >
+        <div class="library-tools">
+          <button id="btnRemoveDone" class="btn small ghost" type="button">
+            Erledigte entfernen</button
+          ><button
+            id="btnClearLibrary"
+            class="btn small ghost"
+            type="button"
+            title="Alle Aufträge aus der Liste entfernen; Bilder bleiben erhalten"
+          >
+            Liste leeren
+          </button>
+        </div>
+        <div class="library-body">
+          <div id="assetList"></div>
+          <div id="libraryEmpty" class="library-empty">
+            <svg class="icon" aria-hidden="true"><use href="#i-folder" /></svg
+            ><strong>Dein erster Bildauftrag</strong>
+            <p>
+              Lege einen Auftrag an, um Prompts und Einstellungen zu speichern.
+            </p>
+          </div>
+        </div>
+        <div class="batch">
+          <span class="eyebrow">STAPELVERARBEITUNG</span
+          ><button id="btnBatchMissing" class="btn ghost" type="button">
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ><span>Fehlende generieren</span>
+          </button>
+          <button id="btnBatchAll" class="btn ghost" type="button">
+            <svg class="icon" aria-hidden="true"><use href="#i-refresh" /></svg
+            ><span>Alle erneut generieren</span>
+          </button>
+        </div>
+        <div class="sidebar-note">
+          <span class="privacy-dot"></span>Dateien bleiben lokal
+        </div>
+      </aside>
+      <section class="editor" aria-label="Bildeinstellungen">
+        <div class="section-heading">
+          <span class="eyebrow">ERSTELLEN</span>
+          <h1>Bild generieren</h1>
+          <p>Prompt, Referenzen und Ausgabe konfigurieren.</p>
+        </div>
+        <div class="form-grid">
+          <div class="full field">
+            <span>Ausgabeordner</span>
+            <div class="row folder-row">
+              <input
+                id="exportFolderPath"
+                aria-label="Ausgabeordner"
+                readonly
+                value="Wird geladen …"
+              /><button id="btnChooseFolder" class="btn small" type="button">
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-folder" /></svg
+                ><span>Ordner wählen</span>
+              </button>
+            </div>
+            <span id="folderStatus" class="field-note" role="status"></span
+            ><input id="fDir" type="hidden" value="" />
+          </div>
+          <label class="full field"
+            >Dateiname<input
+              id="fFile"
+              aria-label="Dateiname"
+              value="mein-bild.png"
+              placeholder="mein-bild.png"
+              spellcheck="false"
+          /></label>
+          <label class="full field prompt-field"
+            ><span class="field-title"
+              >Prompt
+              <span class="field-note">Deine Bildbeschreibung</span></span
+            ><textarea
+              id="fPrompt"
+              rows="6"
+              placeholder="Ein Motiv, eine Stimmung, ein besonderes Detail …"
+              spellcheck="false"
+            ></textarea>
+          </label>
+          <div class="full refs-block">
+            <div class="refs-head">
+              <div>
+                <span class="field-title">Referenzbilder</span
+                ><span
+                  id="refSelectionInfo"
+                  class="field-note"
+                  aria-live="polite"
+                  >Keine ausgewählt · optional bis zu 10 Bilder</span
+                >
+              </div>
+              <input
+                type="file"
+                id="refFile"
+                accept="image/png,image/jpeg,image/webp"
+                multiple
+                hidden
+              /><button id="btnRefAdd" class="btn small ghost" type="button">
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-upload" /></svg
+                ><span>Hinzufügen</span>
+              </button>
+            </div>
+            <div id="refList" class="ref-list"></div>
+          </div>
+          <div class="full settings-heading">
+            <svg class="icon" aria-hidden="true"><use href="#i-settings" /></svg
+            ><span>Generierung</span>
+          </div>
+          <label class="field full"
+            >Bildformat<select id="fFmt">
+              <option value="512x512">512 × 512 · Entwurf</option>
+              <option value="768x768">768 × 768 · kleiner</option>
+              <option value="1024x1024" selected>1024 × 1024 · Quadrat</option>
+              <option value="1216x832">1216 × 832 · Querformat</option>
+              <option value="832x1216">832 × 1216 · Hochformat</option>
+              <option value="1536x864">1536 × 864 · 16:9</option>
+              <option value="864x1536">864 × 1536 · 9:16</option></select
+            ><span class="field-note"
+              >Kleinere Formate benötigen weniger GPU-Speicher. Keine
+              Speicher-Garantie.</span
+            ></label
+          >
+          <details class="full advanced-settings">
+            <summary>Erweiterte Einstellungen</summary>
+            <p id="samplingHint" class="settings-hint">
+              Standard: 30 Steps und CFG 1. Für den Einstieg musst du diese
+              Werte nicht ändern.
+            </p>
+            <div class="advanced-grid">
+              <label class="field"
+                >Seed
+                <div class="row">
+                  <input
+                    id="fSeed"
+                    type="number"
+                    value="42"
+                    aria-label="Seed"
+                  /><button
+                    id="btnDice"
+                    class="btn icon-button"
+                    type="button"
+                    title="Zufälligen Seed wählen"
+                    aria-label="Zufälligen Seed wählen"
+                  >
+                    <svg class="icon" aria-hidden="true">
+                      <use href="#i-dice" /></svg
+                    ><span></span>
+                  </button></div
+              ></label>
+              <label class="field"
+                >Steps<input
+                  id="fSteps"
+                  type="number"
+                  min="1"
+                  max="100"
+                  value="30"
+              /></label>
+              <label class="field"
+                >Guidance (CFG)<input
+                  id="fCfg"
+                  type="number"
+                  step="0.5"
+                  min="1"
+                  value="1"
+              /></label>
+              <label class="field full"
+                >Exportgröße<select id="fExportSize">
+                  <option>256</option>
+                  <option>512</option>
+                  <option>1024</option>
+                  <option value="0" selected>Originalgröße</option>
+                </select></label
+              >
+              <div class="checks full">
+                <label class="check"
+                  ><input id="fMaster" type="checkbox" />Style-Preset</label
+                ><label class="check"
+                  ><input id="fRgba" type="checkbox" />Transparenz-Prompt</label
+                >
+              </div>
+              <label class="check full"
+                ><input id="allowLargeFormats" type="checkbox" />Große Formate
+                freischalten (experimentell)</label
+              >
+              <p class="settings-hint full">
+                2K kann viel mehr Speicher benötigen. Die Exportgröße
+                verkleinert erst das fertige Bild und senkt den Speicherbedarf
+                der Generierung nicht.
+              </p>
+            </div>
+          </details>
+          <details class="full">
+            <summary>Verwendeten Prompt ansehen</summary>
+            <pre id="promptPreview" class="pre"></pre>
+          </details>
+        </div>
+        <div class="full actions">
+          <button id="btnGen" class="btn primary" type="button" disabled>
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow" /></svg
+            ><span>Bild generieren</span>
+          </button>
+          <div class="secondary-actions">
+            <button id="btnSave" class="btn ghost small" type="button">
+              <svg class="icon" aria-hidden="true"><use href="#i-save" /></svg
+              ><span>Speichern</span>
+            </button>
+            <button
+              id="btnDel"
+              class="btn ghost icon-button danger"
+              type="button"
+              title="Bildauftrag löschen"
+              aria-label="Bildauftrag löschen"
+            >
+              <svg class="icon" aria-hidden="true"><use href="#i-delete" /></svg
+              ><span></span>
+            </button>
+          </div>
+        </div>
+      </section>
+      <section class="preview-block" aria-label="Bildvorschau">
+        <div class="preview-heading">
+          <div>
+            <span class="eyebrow">AUSGABE</span>
+            <h2>Vorschau</h2>
+          </div>
+          <span class="preview-tag">PNG</span>
+        </div>
+        <div class="preview checker">
+          <img
+            id="preview"
+            alt="Generiertes Bild"
+            decoding="async"
+            style="display: none"
+          />
+          <div id="previewEmpty">
+            <span class="empty-image"
+              ><svg class="icon" aria-hidden="true"><use href="#i-image" /></svg
+            ></span>
+            <h3>Noch keine Vorschau</h3>
+            <p>
+              Beschreibe dein Motiv und starte die Generierung.<br />Das
+              Ergebnis erscheint in diesem Bereich.
+            </p>
+            <span class="empty-caption">Qwen Image 2.1</span>
+          </div>
+        </div>
+        <div class="preview-caption">
+          <span>Original & Export</span><span>Lokale Bildgenerierung</span>
+        </div>
+        <div id="resultMeta" class="dim small" aria-live="polite"></div>
+      </section>
+    </main>
+    <footer>
+      <span class="footer-label"><span class="status-dot"></span>Sitzung</span>
+      <div id="jobInfo" class="dim" aria-live="polite">
+        Bereit für deinen nächsten Auftrag
+      </div>
+      <div class="bar" role="presentation"><div id="barFill"></div></div>
+      <div id="queueInfo" class="dim small"></div>
+      <button id="btnStop" class="btn small stopbtn hidden" type="button">
+        <svg class="icon" aria-hidden="true"><use href="#i-stop" /></svg
+        ><span>Anhalten</span>
+      </button>
+      <button id="btnClearQueue" class="btn small ghost hidden" type="button">
+        <svg class="icon" aria-hidden="true"><use href="#i-x" /></svg
+        ><span>Wartende abbrechen</span>
+      </button>
+    </footer>
+    <dialog
+      id="actionDialog"
+      aria-labelledby="dialogTitle"
+      aria-describedby="dialogMessage"
+    >
+      <form id="dialogForm">
+        <span class="eyebrow">LOCAL IMAGEGEN UI</span>
+        <h2 id="dialogTitle"></h2>
+        <p id="dialogMessage"></p>
+        <label id="dialogField" class="field"
+          >Dateiname<input
+            id="dialogInput"
+            autocomplete="off"
+            placeholder="mein-bild"
+            required
+        /></label>
+        <div class="dialog-actions">
+          <button id="dialogCancel" type="button" class="btn ghost">
+            Abbrechen</button
+          ><button id="dialogAccept" type="submit" class="btn primary">
+            Anlegen
+          </button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast" role="status"></div>
+    <script src="/static/app.js?v=local-imagegen-2"></script>
+  </body>
+</html>

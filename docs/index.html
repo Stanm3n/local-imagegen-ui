@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Local ImageGen UI: lokal generierte Poster, Produktanzeigen und Bildbearbeitung. Echte Ergebnisse mit Prompts und Einstellungen."
+    />
+    <meta name="color-scheme" content="light dark" />
+    <title>Local ImageGen UI — Selected works</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="style.css?v=20261103a" />
+    <script src="data.js?v=20261103d" defer></script>
+    <script src="app.js?v=20261103b" defer></script>
+  </head>
+  <body>
+    <a class="skip" href="#arbeiten">Zu den Ergebnissen</a>
+    <header>
+      <a href="#" class="brand"
+        ><span class="mark" aria-hidden="true">L</span>Local
+        <span>ImageGen UI</span></a
+      >
+      <nav aria-label="Hauptnavigation">
+        <a href="#anwendung">Die App</a><a href="#arbeiten">Ergebnisse</a
+        ><a href="#bearbeitung">Bildbearbeitung</a
+        ><a href="#modelle">Modelle</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" aria-label="Dunkles Design aktivieren">
+          ◐</button
+        ><a
+          href="https://github.com/Stanm3n/local-imagegen-ui"
+          target="_blank"
+          rel="noopener noreferrer"
+          >GitHub ↗</a
+        >
+      </div>
+    </header>
+    <main>
+      <section class="hero wrap">
+        <div>
+          <p class="eyebrow">
+            <i class="dot"></i> LOCAL IMAGE GENERATION · PORTFOLIO
+          </p>
+          <h1>Eine Idee.<br />Ein Prompt.<br /><span>Ein neues Bild.</span></h1>
+          <p class="hero-sub">
+            Kanzlei-Auftritte, Recruiting-Motive und Kampagnen für IT und KI.
+            Konkrete Marketing-Ideen, generiert mit Qwen auf eigenem Rechner.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#arbeiten">Ergebnisse entdecken ↓</a
+            ><a class="button" href="#anwendung">Die App ansehen</a>
+          </div>
+        </div>
+        <div class="hero-art">
+          <figure class="hero-card coffee">
+            <img
+              src="assets/kanzlei_01_klarheit.webp"
+              width="1024"
+              height="1024"
+              alt="KANTWERK Kanzleimotiv: Klarheit, wenn es zählt"
+              fetchpriority="high"
+            />
+            <figcaption>01 / Kanzlei-Auftritt</figcaption>
+          </figure>
+          <figure class="hero-card product">
+            <img
+              src="assets/kanzlei_02_podcast.webp"
+              width="1024"
+              height="1024"
+              alt="Recht einfach: Cover eines fiktiven Kanzlei-Podcasts"
+            />
+            <figcaption>02 / Podcast-Cover</figcaption>
+          </figure>
+          <span class="art-note">SELECTED OUTPUTS / 2026</span>
+        </div>
+      </section>
+      <div class="proof">
+        <div class="wrap">
+          <p><i class="dot"></i> Auf lokaler Hardware erstellt</p>
+          <span>Text → Bild</span><span>Referenz → Bearbeitung</span
+          ><span>Prompts & Originaldateien</span>
+        </div>
+      </div>
+      <section id="anwendung" class="section wrap app-showcase">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">01 / DIE ANWENDUNG</p>
+            <h2>Deine Bilder. Ein Arbeitsbereich.</h2>
+          </div>
+          <p>
+            Beschreibe eine Idee, ergänze bei Bedarf Referenzbilder und bereite
+            deine Bildaufträge vor. Local ImageGen UI bündelt die Arbeit mit dem
+            Modell in einer lokalen Oberfläche.
+          </p>
+        </div>
+        <div
+          class="app-view-controls"
+          role="group"
+          aria-label="Oberflächenbeispiel auswählen"
+        >
+          <button type="button" data-app-view="generate" aria-pressed="true">
+            Bildgenerierung · Hell
+          </button>
+          <button type="button" data-app-view="references" aria-pressed="false">
+            Mit Referenzen · Dunkel
+          </button>
+        </div>
+        <figure class="app-screenshot">
+          <a
+            id="appScreenshotLink"
+            href="assets/ui-generieren.png"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Screenshot der Anwendung in voller Größe öffnen"
+          >
+            <img
+              id="appScreenshot"
+              src="assets/ui-generieren.webp?v=2"
+              width="1680"
+              height="1050"
+              alt="Local ImageGen UI im Hellmodus: links gespeicherte Bildaufträge, in der Mitte Prompt und Ausgabe, rechts ein Workshop-Poster als Vorschau"
+              loading="lazy"
+            />
+          </a>
+          <figcaption>
+            <span id="appScreenshotCaption"
+              >Bildgenerierung: Prompt, Dateiname, Bildformat und Vorschau an
+              einem Ort.</span
+            ><a
+              id="appScreenshotFull"
+              href="assets/ui-generieren.png"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Screenshot vergrößern ↗</a
+            >
+          </figcaption>
+        </figure>
+        <p class="app-capture-note">
+          Oberflächenaufnahmen mit vorbereiteten BF16-Beispielen. Der
+          Ausgabeordner ist anonymisiert.
+        </p>
+        <ol class="app-steps">
+          <li>
+            <span class="step-number" aria-hidden="true">01</span>
+            <h3>Idee beschreiben</h3>
+            <p>
+              Schreibe, was entstehen soll: etwa ein Poster, eine Produktanzeige
+              oder ein Social-Media-Motiv. Bildaufträge speichern Prompt und
+              Einstellungen.
+            </p>
+          </li>
+          <li>
+            <span class="step-number" aria-hidden="true">02</span>
+            <h3>Referenzen ergänzen</h3>
+            <p>
+              Optional bis zu zehn Bilder hinzufügen. Zum Beispiel eine
+              Produktfarbe ändern oder ein Model mit einem Kleidungsstück aus
+              einer zweiten Referenz kombinieren.
+            </p>
+          </li>
+          <li>
+            <span class="step-number" aria-hidden="true">03</span>
+            <h3>Ausgabe festlegen</h3>
+            <p>
+              Ordner und Dateinamen wählen, dann ein Bildformat einstellen.
+              Weitere Optionen wie Seed und Exportgröße stehen unter den
+              erweiterten Einstellungen.
+            </p>
+          </li>
+          <li>
+            <span class="step-number" aria-hidden="true">04</span>
+            <h3>Generieren &amp; ansehen</h3>
+            <p>
+              Mit geladenem Modell starten. Mehrere Aufträge laufen
+              nacheinander; Vorschau, Fortschritt und Abbruch bleiben in
+              derselben Oberfläche.
+            </p>
+          </li>
+        </ol>
+        <div class="app-start">
+          <div>
+            <h3>Auf eigenem Rechner starten.</h3>
+            <p>
+              Projekt herunterladen und <code>start.bat</code> öffnen. Beim
+              ersten Start wird die Umgebung vorbereitet und standardmäßig Q4
+              heruntergeladen. Über <code>Modell-waehlen.bat</code> lässt sich
+              das Modell wechseln.
+            </p>
+            <p class="quiet">
+              Windows, Python 3.11 und eine NVIDIA-GPU werden benötigt. Die
+              Ersteinrichtung braucht Internet; die vollständige Anleitung steht
+              in der README des Projekts.
+            </p>
+          </div>
+          <a class="button" href="#arbeiten">Was damit möglich ist ↓</a>
+        </div>
+      </section>
+      <section id="arbeiten" class="section wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">02 / TEXT ZU BILD</p>
+            <h2>Aus Worten wird Gestaltung.</h2>
+          </div>
+          <p>
+            Fiktive Kampagnen für Kanzleien, IT und KI — ergänzt um weitere
+            Designbeispiele. Die Schrift ist Teil des generierten Bildes.
+          </p>
+        </div>
+        <div class="toolbar">
+          <div class="filters" role="group" aria-label="Ergebnisse filtern">
+            <button data-filter="all" aria-pressed="true">Alle Arbeiten</button
+            ><button data-filter="legal" aria-pressed="false">Kanzlei</button
+            ><button data-filter="it" aria-pressed="false">IT</button
+            ><button data-filter="ai" aria-pressed="false">KI</button
+            ><button data-filter="other" aria-pressed="false">Weitere</button>
+          </div>
+          <span class="quiet" id="resultCount" aria-live="polite"
+            >9 Arbeiten</span
+          >
+        </div>
+        <div class="gallery" id="gallery"></div>
+        <noscript
+          >Bitte JavaScript aktivieren, um Galerie und Prompts
+          anzuzeigen.</noscript
+        >
+        <p class="footnote">
+          Eigenständige Portfolio-Konzepte. Die gezeigten Marken und Kampagnen
+          sind fiktiv; es handelt sich um keine Kundenaufträge.
+        </p>
+      </section>
+      <section class="editing" id="bearbeitung">
+        <div class="section wrap">
+          <div class="section-head">
+            <div>
+              <p class="eyebrow">03 / EDITING MIT REFERENZEN</p>
+              <h2>Aus Referenzen wird Neues.</h2>
+            </div>
+            <p>
+              Produktfarbe ändern, Outfit kombinieren oder ein Wandbild
+              ersetzen. Die Ausgangsbilder dienen als Referenz.
+            </p>
+          </div>
+          <div
+            class="edit-tabs"
+            role="group"
+            aria-label="Editing-Beispiel auswählen"
+          >
+            <button data-edit="0" aria-pressed="true">
+              01 — Produktfarbe ändern</button
+            ><button data-edit="1" aria-pressed="false">
+              02 — Outfit kombinieren</button
+            ><button data-edit="2" aria-pressed="false">
+              03 — Wandbild ersetzen
+            </button>
+          </div>
+          <div class="edit-layout" id="editingLayout">
+            <div class="edit-media">
+              <div class="compare" id="comparison">
+                <img
+                  id="editResult"
+                  class="compare-result"
+                  src="assets/edit_01_produkt_blau.png"
+                  alt="Produktmotiv mit blauer Flasche"
+                />
+                <div class="compare-original">
+                  <img
+                    id="editSource"
+                    src="assets/demo_02_produkt_social.png"
+                    alt="Originalmotiv mit bernsteinfarbener Flasche"
+                  />
+                </div>
+                <span class="image-label before">Original</span
+                ><span class="image-label after">Bearbeitung</span>
+                <div class="compare-handle" aria-hidden="true">
+                  <span>↔</span>
+                </div>
+                <input
+                  id="compareRange"
+                  type="range"
+                  min="0"
+                  max="100"
+                  value="50"
+                  aria-label="Vorher-Nachher-Vergleich"
+                  aria-valuetext="50 Prozent Original sichtbar"
+                />
+              </div>
+              <div id="editReferences" class="edit-references"></div>
+            </div>
+            <div class="edit-copy">
+              <span class="tag">REFERENZEN → BEARBEITUNG</span>
+              <h3 id="editHeading">Produktfarbe ändern</h3>
+              <p id="editDescription"></p>
+              <p class="result-note" id="alphaNote"></p>
+              <div class="prompt-box">
+                <p class="eyebrow">DER AUFTRAG</p>
+                <p id="editBrief"></p>
+              </div>
+              <button class="button" id="editDetails">
+                Prompt & Originaldatei ↗
+              </button>
+              <p class="quiet tip">
+                Regler ziehen oder mit den Pfeiltasten bedienen. Referenzen
+                anklicken, um sie vollständig anzusehen.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="modelle" class="section wrap">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">VERWENDETE MODELLE</p>
+            <h2>Modelle auf Hugging Face.</h2>
+          </div>
+          <p>
+            Die gezeigten Ergebnisse wurden mit dem Originalmodell in BF16
+            erzeugt. Die kompaktere Q4-Version findest du ebenfalls auf Hugging
+            Face.
+          </p>
+        </div>
+        <div class="hero-actions">
+          <a
+            class="button primary"
+            href="https://huggingface.co/unsloth/Qwen-Image-2.1-Turbo-GGUF/blob/main/qwen-image-2.1-turbo-Q4_K_M.gguf"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Q4 auf Hugging Face ↗</a
+          ><a
+            class="button"
+            href="https://huggingface.co/Qwen/Qwen-Image-2.1"
+            target="_blank"
+            rel="noopener noreferrer"
+            >BF16 auf Hugging Face ↗</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer class="wrap">
+      <a class="brand" href="#">Local <span>ImageGen UI</span></a>
+      <p>Selected works · Portfolio von Stan · 2026</p>
+      <a
+        href="https://stanm3n.github.io/voxtral-voice-gen/"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Auch ansehen: Voxtral Voice Gen ↗</a
+      >
+    </footer>
+    <dialog id="workDialog" aria-labelledby="dialogTitle">
+      <div class="dialog-layout">
+        <div class="dialog-image checker"><img id="dialogImage" alt="" /></div>
+        <div class="dialog-copy">
+          <div class="dialog-top">
+            <span id="dialogCategory" class="eyebrow"></span
+            ><button id="closeDialog" aria-label="Detailansicht schließen">
+              ×
+            </button>
+          </div>
+          <h2 id="dialogTitle"></h2>
+          <p id="dialogDescription"></p>
+          <dl id="dialogSettings"></dl>
+          <label class="eyebrow" for="dialogPrompt">VOLLSTÄNDIGER PROMPT</label
+          ><textarea id="dialogPrompt" readonly></textarea>
+          <div class="dialog-actions">
+            <button class="button primary" id="copyPrompt">
+              Prompt kopieren</button
+            ><a class="button" id="downloadImage" download
+              >PNG herunterladen ↓</a
+            >
+          </div>
+          <p class="quiet" id="copyStatus" role="status"></p>
+        </div>
+      </div>
+    </dialog>
+  </body>
+</html>
